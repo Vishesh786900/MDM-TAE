@@ -1,0 +1,171 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stone Paper Scissors</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-slate-900 flex items-center justify-center p-4">
+
+  <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md text-center">
+
+    <h1 class="text-3xl font-bold text-slate-800 mb-2">
+      Stone Paper Scissors
+    </h1>
+
+    <p class="text-gray-500 mb-8">
+      Choose your move!
+    </p>
+
+    <!-- Score -->
+    <div class="flex justify-around bg-slate-100 rounded-xl p-4 mb-8">
+      <div>
+        <p class="text-sm text-gray-500">You</p>
+        <p id="playerScore" class="text-3xl font-bold text-blue-600">0</p>
+      </div>
+
+      <div>
+        <p class="text-sm text-gray-500">Computer</p>
+        <p id="computerScore" class="text-3xl font-bold text-red-600">0</p>
+      </div>
+    </div>
+
+    <!-- Choices -->
+    <div class="flex justify-center gap-4 mb-8">
+      <button
+        onclick="playGame('stone')"
+        class="choice-btn bg-gray-200 hover:bg-gray-300">
+        🪨
+        <span>Stone</span>
+      </button>
+
+      <button
+        onclick="playGame('paper')"
+        class="choice-btn bg-blue-100 hover:bg-blue-200">
+        📄
+        <span>Paper</span>
+      </button>
+
+      <button
+        onclick="playGame('scissors')"
+        class="choice-btn bg-purple-100 hover:bg-purple-200">
+        ✂️
+        <span>Scissors</span>
+      </button>
+    </div>
+
+    <!-- Result -->
+    <div class="bg-slate-50 rounded-xl p-5">
+      <p id="result" class="text-xl font-bold text-slate-700">
+        Make your choice!
+      </p>
+
+      <p id="moves" class="text-gray-500 mt-2">
+        You: - | Computer: -
+      </p>
+    </div>
+
+    <!-- Reset -->
+    <button
+      onclick="resetGame()"
+      class="mt-6 w-full bg-slate-800 text-white py-3 rounded-xl
+             hover:bg-slate-700 transition">
+      Reset Game
+    </button>
+
+  </div>
+
+  <script>
+    let playerScore = 0;
+    let computerScore = 0;
+
+    const choices = ["stone", "paper", "scissors"];
+
+    function playGame(playerChoice) {
+
+      // Computer chooses randomly
+      const computerChoice =
+        choices[Math.floor(Math.random() * choices.length)];
+
+      let result = "";
+
+      // Check winner
+      if (playerChoice === computerChoice) {
+        result = "It's a draw! 🤝";
+      }
+      else if (
+        (playerChoice === "stone" && computerChoice === "scissors") ||
+        (playerChoice === "paper" && computerChoice === "stone") ||
+        (playerChoice === "scissors" && computerChoice === "paper")
+      ) {
+        playerScore++;
+        result = "You win! 🎉";
+      }
+      else {
+        computerScore++;
+        result = "Computer wins! 💻";
+      }
+
+      // Update screen
+      document.getElementById("playerScore").textContent = playerScore;
+      document.getElementById("computerScore").textContent = computerScore;
+
+      document.getElementById("result").textContent = result;
+
+      document.getElementById("moves").textContent =
+        `You: ${formatChoice(playerChoice)} | Computer: ${formatChoice(computerChoice)}`;
+    }
+
+    function formatChoice(choice) {
+      const emojis = {
+        stone: "🪨 Stone",
+        paper: "📄 Paper",
+        scissors: "✂️ Scissors"
+      };
+
+      return emojis[choice];
+    }
+
+    function resetGame() {
+      playerScore = 0;
+      computerScore = 0;
+
+      document.getElementById("playerScore").textContent = "0";
+      document.getElementById("computerScore").textContent = "0";
+
+      document.getElementById("result").textContent =
+        "Make your choice!";
+
+      document.getElementById("moves").textContent =
+        "You: - | Computer: -";
+    }
+  </script>
+
+  <style>
+    .choice-btn {
+      width: 90px;
+      height: 90px;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      font-size: 28px;
+      transition: 0.2s;
+    }
+
+    .choice-btn span {
+      font-size: 12px;
+      font-weight: 600;
+    }
+  </style>
+
+</body>
+</html>
+```
